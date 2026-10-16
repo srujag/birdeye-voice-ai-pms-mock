@@ -8,7 +8,6 @@
   <!-- Fonts & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 
   <style>
     :root {
@@ -148,7 +147,7 @@
       box-shadow: 0 8px 16px rgba(0, 102, 255, 0.2);
     }
     .agent-name { font-size: 1.3rem; font-weight: 700; color: var(--navy); }
-    .agent-role { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem; }
+    .agent-role { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.25rem; }
 
     .status-badge {
       display: inline-flex;
@@ -158,17 +157,42 @@
       border-radius: 20px;
       font-size: 0.8rem;
       font-weight: 600;
-      background: #E2E8F0;
-      color: #475569;
-      margin-bottom: 1.5rem;
+      background: #DCFCE7;
+      color: #15803D;
+      margin-bottom: 1.25rem;
     }
-    .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #94A3B8; }
-    .status-active .status-dot { background: var(--success); animation: pulse 1.5s infinite; }
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--success);
+      animation: pulse 1.5s infinite;
+    }
 
     @keyframes pulse {
       0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
       70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
       100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    }
+
+    /* Moving Hand Pointer Wrapper */
+    .call-btn-wrapper {
+      position: relative;
+      width: 100%;
+    }
+    .hand-pointer {
+      position: absolute;
+      right: -28px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.6rem;
+      animation: bounce-horizontal 1.2s infinite ease-in-out;
+      pointer-events: none;
+    }
+
+    @keyframes bounce-horizontal {
+      0%, 100% { transform: translate(0, -50%); }
+      50% { transform: translate(-8px, -50%); }
     }
 
     .btn {
@@ -225,20 +249,22 @@
 
    const AGENT_ID = "agent_198d66808b45681c64653b7092";
     const API_KEY = "key_0117900268a440ed59d36d89d0d1";
-
     const retellWebClient = new RetellWebClient();
     let isCallActive = false;
 
     const btn = document.getElementById('call-btn');
     const status = document.getElementById('status');
     const statusText = document.getElementById('status-text');
+    const handPointer = document.getElementById('hand-pointer');
 
     retellWebClient.on("call_started", () => {
       isCallActive = true;
-      status.className = "status-badge status-active";
+      status.style.background = "#DCFCE7";
+      status.style.color = "#15803D";
       statusText.innerText = "● Live Audio Connected";
       btn.innerText = "End Voice Session";
       btn.className = "btn btn-danger";
+      if(handPointer) handPointer.style.display = "none";
     });
 
     retellWebClient.on("call_ended", () => resetUI());
@@ -276,10 +302,12 @@
 
     function resetUI() {
       isCallActive = false;
-      status.className = "status-badge";
-      statusText.innerText = "Ready to Connect";
+      status.style.background = "#DCFCE7";
+      status.style.color = "#15803D";
+      statusText.innerText = "AI Agent Online";
       btn.innerText = "Start Live Demo Call";
       btn.className = "btn btn-primary";
+      if(handPointer) handPointer.style.display = "block";
     }
   </script>
 </head>
@@ -289,10 +317,10 @@
   <header class="navbar">
     <div class="brand">
       <span>Birdeye Voice AI</span>
-      <span class="brand-badge">Healthcare Prototype</span>
+      <span class="brand-badge">Healthcare Solution</span>
     </div>
     <button class="btn walkthrough-btn" style="width: auto; margin:0;" onclick="toggleModal(true)">
-      📖 Architecture & Guided Tour
+      📖 Architecture & Overview
     </button>
   </header>
 
@@ -302,11 +330,7 @@
     <!-- Left: Context & Overview -->
     <section class="hero-card">
       <div class="hero-img-container">
-        
-
-http://googleusercontent.com/image_generation_content/25_1086
-
-
+        <img src="hero-dental.jpg" alt="BrightSmile Dental Practice Reception" />
       </div>
       <div class="hero-body">
         <h1 class="hero-title">BrightSmile Dental Voice Assistant</h1>
@@ -329,7 +353,7 @@ http://googleusercontent.com/image_generation_content/25_1086
             <p>Triggers REST API calls directly to the Practice Management System for real-time slot checking.</p>
           </div>
           <div class="feature-item">
-            <h4>🔒 HIPPA-Aware Guardrails</h4>
+            <h4>🔒 HIPAA-Aware Guardrails</h4>
             <p>Structured system prompts designed to route clinical emergencies to human staff.</p>
           </div>
         </div>
@@ -354,22 +378,26 @@ http://googleusercontent.com/image_generation_content/25_1086
 
       <div id="status" class="status-badge">
         <span class="status-dot"></span>
-        <span id="status-text">Ready to Connect</span>
+        <span id="status-text">AI Agent Online</span>
       </div>
 
-      <button id="call-btn" class="btn btn-primary">Start Live Demo Call</button>
-      <button class="btn walkthrough-btn" onclick="toggleModal(true)">View Prototype Spec</button>
+      <div class="call-btn-wrapper">
+        <button id="call-btn" class="btn btn-primary">Start Live Demo Call</button>
+        <span id="hand-pointer" class="hand-pointer">👈</span>
+      </div>
+
+      <button class="btn walkthrough-btn" onclick="toggleModal(true)">View System Specs</button>
     </section>
 
   </main>
 
-  <!-- Guided Tour / Architecture Modal -->
+  <!-- Overview Modal -->
   <div id="walkthrough-modal" class="modal-overlay">
     <div class="modal-card">
       <button class="modal-close" onclick="toggleModal(false)">✕</button>
-      <h2 style="color: var(--navy); margin-bottom: 0.5rem;">Voice AI Prototype Architecture</h2>
+      <h2 style="color: var(--navy); margin-bottom: 0.5rem;">Voice AI System Architecture</h2>
       <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 1.5rem;">
-        Engineered for the Senior Product Manager (Voice AI) evaluation at Birdeye.
+        Enterprise-grade automated receptionist integration powered by Birdeye Voice AI.
       </p>
 
       <div style="text-align: left; font-size: 0.88rem; line-height: 1.6; color: var(--text-main);">
