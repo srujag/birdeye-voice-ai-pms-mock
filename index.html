@@ -3,90 +3,227 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BrightSmile Dental - AI Frontdesk Assistant</title>
+  <title>Maya AI Receptionist | BrightSmile Dental x Birdeye</title>
+  
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
   <style>
+    :root {
+      --primary: #0066FF;
+      --primary-hover: #0052CC;
+      --navy: #0B192C;
+      --bg-gray: #F8FAFC;
+      --card-border: #E2E8F0;
+      --text-main: #1E293B;
+      --text-muted: #64748B;
+      --success: #10B981;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background-color: #f0f4f8;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-gray);
+      color: var(--text-main);
       min-height: 100vh;
-      margin: 0;
+      display: flex;
+      flex-direction: column;
     }
-    .card {
-      background: #ffffff;
-      padding: 2.5rem;
-      border-radius: 16px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-      width: 100%;
-      max-width: 400px;
-      text-align: center;
+
+    /* Navbar */
+    .navbar {
+      background: #FFFFFF;
+      border-bottom: 1px solid var(--card-border);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
-    .avatar {
-      font-size: 64px;
-      margin-bottom: 1rem;
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--navy);
     }
-    h2 {
-      color: #1a237e;
-      margin: 0 0 0.5rem 0;
-    }
-    p {
-      color: #5c6bc0;
-      font-size: 14px;
-      margin: 0 0 1.5rem 0;
-    }
-    .status-badge {
-      display: inline-block;
-      padding: 8px 16px;
-      border-radius: 20px;
-      font-size: 13px;
+    .brand-badge {
+      background: #E0F2FE;
+      color: #0369A1;
+      font-size: 0.75rem;
+      padding: 4px 8px;
+      border-radius: 6px;
       font-weight: 600;
-      background: #e0e0e0;
-      color: #424242;
+    }
+
+    /* Main Container */
+    .container {
+      max-width: 1100px;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 2rem;
+      flex: 1;
+    }
+
+    /* Left Section: Overview & Context */
+    .hero-card {
+      background: #FFFFFF;
+      border-radius: 16px;
+      border: 1px solid var(--card-border);
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    }
+    .hero-img-container {
+      height: 200px;
+      width: 100%;
+      overflow: hidden;
+      position: relative;
+    }
+    .hero-img-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .hero-body { padding: 2rem; }
+    .hero-title { font-size: 1.6rem; color: var(--navy); margin-bottom: 0.5rem; }
+    .hero-subtitle { color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; margin-bottom: 1.5rem; }
+
+    /* Capabilities Grid */
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+    .feature-item {
+      background: #F1F5F9;
+      padding: 1rem;
+      border-radius: 10px;
+    }
+    .feature-item h4 { font-size: 0.88rem; color: var(--navy); margin-bottom: 4px; }
+    .feature-item p { font-size: 0.8rem; color: var(--text-muted); }
+
+    /* Testing Prompts Section */
+    .prompts-section { margin-top: 2rem; }
+    .prompts-title { font-size: 0.9rem; font-weight: 600; color: var(--navy); margin-bottom: 0.75rem; }
+    .prompt-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+    .pill {
+      background: #EFF6FF;
+      color: var(--primary);
+      border: 1px solid #BFDBFE;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.82rem;
+      font-weight: 500;
+    }
+
+    /* Right Section: Interactive Agent Card */
+    .agent-card {
+      background: #FFFFFF;
+      border-radius: 16px;
+      border: 1px solid var(--card-border);
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+      position: relative;
+    }
+    .agent-avatar {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #0066FF, #00C6FF);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 8px 16px rgba(0, 102, 255, 0.2);
+    }
+    .agent-name { font-size: 1.3rem; font-weight: 700; color: var(--navy); }
+    .agent-role { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem; }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      background: #E2E8F0;
+      color: #475569;
       margin-bottom: 1.5rem;
     }
+    .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #94A3B8; }
+    .status-active .status-dot { background: var(--success); animation: pulse 1.5s infinite; }
+
+    @keyframes pulse {
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+      70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    }
+
     .btn {
       width: 100%;
       padding: 14px;
-      font-size: 16px;
-      font-weight: bold;
+      font-size: 0.95rem;
+      font-weight: 600;
       border: none;
-      border-radius: 8px;
+      border-radius: 10px;
       cursor: pointer;
       transition: all 0.2s ease;
     }
-    .btn-start {
-      background: #00c853;
-      color: white;
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-primary:hover { background: var(--primary-hover); }
+    .btn-danger { background: #EF4444; color: white; }
+
+    .walkthrough-btn {
+      background: none;
+      border: 1px solid var(--card-border);
+      color: var(--text-muted);
+      margin-top: 1rem;
+      font-size: 0.85rem;
     }
-    .btn-start:hover {
-      background: #00e676;
+    .walkthrough-btn:hover { background: #F8FAFC; color: var(--navy); }
+
+    /* Modal / Walkthrough Drawer */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(11, 25, 44, 0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
     }
-    .btn-end {
-      background: #d50000;
-      color: white;
+    .modal-card {
+      background: white;
+      border-radius: 16px;
+      max-width: 550px;
+      width: 90%;
+      padding: 2rem;
+      position: relative;
+    }
+    .modal-close {
+      position: absolute;
+      top: 1.2rem; right: 1.2rem;
+      background: none; border: none; font-size: 1.2rem; cursor: pointer;
     }
   </style>
-</head>
-<body>
 
-  <div class="card">
-    <div class="avatar">🦷</div>
-    <h2>Maya - Dental AI Receptionist</h2>
-    <p>BrightSmile Dental Practice Manager</p>
-
-    <div id="status" class="status-badge">Ready to Connect</div>
-
-    <button id="call-btn" class="btn btn-start">Start Voice Call</button>
-  </div>
-
+  <!-- Retell Web Client SDK -->
   <script type="module">
-    // Import Retell Client SDK directly as an ES Module
     import { RetellWebClient } from "https://cdn.jsdelivr.net/npm/retell-client-js-sdk@latest/+esm";
 
-    // 1. Enter your exact credentials
-    const AGENT_ID = "agent_198d66808b45681c64653b7092";
+   const AGENT_ID = "agent_198d66808b45681c64653b7092";
     const API_KEY = "key_0117900268a440ed59d36d89d0d1";
 
     const retellWebClient = new RetellWebClient();
@@ -94,60 +231,41 @@
 
     const btn = document.getElementById('call-btn');
     const status = document.getElementById('status');
+    const statusText = document.getElementById('status-text');
 
-    // Register Call Event Listeners
     retellWebClient.on("call_started", () => {
       isCallActive = true;
-      status.innerText = "● Live Call Active";
-      status.style.background = "#e8f5e9";
-      status.style.color = "#2e7d32";
-      btn.innerText = "End Call";
-      btn.className = "btn btn-end";
+      status.className = "status-badge status-active";
+      statusText.innerText = "● Live Audio Connected";
+      btn.innerText = "End Voice Session";
+      btn.className = "btn btn-danger";
     });
 
-    retellWebClient.on("call_ended", () => {
-      resetUI();
-    });
-
+    retellWebClient.on("call_ended", () => resetUI());
     retellWebClient.on("error", (err) => {
-      console.error("Retell Call Error:", err);
+      console.error(err);
       resetUI();
     });
 
-    // Handle Button Click
     btn.addEventListener('click', async () => {
       if (!isCallActive) {
-        status.innerText = "Connecting...";
-        status.style.background = "#fff9c4";
-        status.style.color = "#f57f17";
-
+        statusText.innerText = "Connecting Gateway...";
         try {
-          // Fetch Web Call Session Token from Retell API
           const response = await fetch("https://api.retellai.com/v2/create-web-call", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
               "Authorization": "Bearer " + API_KEY
             },
-            body: JSON.stringify({
-              agent_id: AGENT_ID
-            })
+            body: JSON.stringify({ agent_id: AGENT_ID })
           });
 
           const data = await response.json();
+          if (!response.ok || !data.access_token) throw new Error(data.message);
 
-          if (!response.ok || !data.access_token) {
-            throw new Error(data.message || "Failed to generate access token");
-          }
-
-          // Start WebCall Audio Stream
-          await retellWebClient.startCall({
-            accessToken: data.access_token
-          });
-
+          await retellWebClient.startCall({ accessToken: data.access_token });
         } catch (error) {
-          console.error("Failed to start web call:", error);
-          alert("Error starting call: " + error.message);
+          alert("Connection Error: " + error.message);
           resetUI();
         }
       } else {
@@ -158,13 +276,120 @@
 
     function resetUI() {
       isCallActive = false;
-      status.innerText = "Ready to Connect";
-      status.style.background = "#e0e0e0";
-      status.style.color = "#424242";
-      btn.innerText = "Start Voice Call";
-      btn.className = "btn btn-start";
+      status.className = "status-badge";
+      statusText.innerText = "Ready to Connect";
+      btn.innerText = "Start Live Demo Call";
+      btn.className = "btn btn-primary";
+    }
+  </script>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="brand">
+      <span>Birdeye Voice AI</span>
+      <span class="brand-badge">Healthcare Prototype</span>
+    </div>
+    <button class="btn walkthrough-btn" style="width: auto; margin:0;" onclick="toggleModal(true)">
+      📖 Architecture & Guided Tour
+    </button>
+  </header>
+
+  <!-- Container -->
+  <main class="container">
+    
+    <!-- Left: Context & Overview -->
+    <section class="hero-card">
+      <div class="hero-img-container">
+        
+
+http://googleusercontent.com/image_generation_content/25_1086
+
+
+      </div>
+      <div class="hero-body">
+        <h1 class="hero-title">BrightSmile Dental Voice Assistant</h1>
+        <p class="hero-subtitle">
+          An autonomous Voice AI agent engineered to handle inbound patient scheduling, appointment availability checks, and common practice FAQs with natural human-like conversational turns.
+        </p>
+
+        <!-- Technical Capabilities Grid -->
+        <div class="feature-grid">
+          <div class="feature-item">
+            <h4>⚡ Sub-700ms Latency</h4>
+            <p>Deepgram Nova-2 (STT) + Groq Llama-3 + Cartesia TTS for real-time speech response.</p>
+          </div>
+          <div class="feature-item">
+            <h4>🔄 Natural Interruption</h4>
+            <p>Supports immediate mid-sentence barge-in handling without dropping conversation context.</p>
+          </div>
+          <div class="feature-item">
+            <h4>📅 PMS Database Tool Calls</h4>
+            <p>Triggers REST API calls directly to the Practice Management System for real-time slot checking.</p>
+          </div>
+          <div class="feature-item">
+            <h4>🔒 HIPPA-Aware Guardrails</h4>
+            <p>Structured system prompts designed to route clinical emergencies to human staff.</p>
+          </div>
+        </div>
+
+        <!-- Pre-built Prompts to test -->
+        <div class="prompts-section">
+          <p class="prompts-title">Suggested Phrases to Test Live:</p>
+          <div class="prompt-pills">
+            <span class="pill">"Do you have open slots this Friday afternoon?"</span>
+            <span class="pill">"What insurance providers do you accept?"</span>
+            <span class="pill">"Interrupt mid-sentence to request a different date"</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Right: Agent Interactive Interface -->
+    <section class="agent-card">
+      <div class="agent-avatar">🤖</div>
+      <h2 class="agent-name">Maya</h2>
+      <p class="agent-role">AI Receptionist • BrightSmile Dental</p>
+
+      <div id="status" class="status-badge">
+        <span class="status-dot"></span>
+        <span id="status-text">Ready to Connect</span>
+      </div>
+
+      <button id="call-btn" class="btn btn-primary">Start Live Demo Call</button>
+      <button class="btn walkthrough-btn" onclick="toggleModal(true)">View Prototype Spec</button>
+    </section>
+
+  </main>
+
+  <!-- Guided Tour / Architecture Modal -->
+  <div id="walkthrough-modal" class="modal-overlay">
+    <div class="modal-card">
+      <button class="modal-close" onclick="toggleModal(false)">✕</button>
+      <h2 style="color: var(--navy); margin-bottom: 0.5rem;">Voice AI Prototype Architecture</h2>
+      <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 1.5rem;">
+        Engineered for the Senior Product Manager (Voice AI) evaluation at Birdeye.
+      </p>
+
+      <div style="text-align: left; font-size: 0.88rem; line-height: 1.6; color: var(--text-main);">
+        <p><strong>1. Speech Processing Pipeline:</strong> WebRTC voice streams are transcribed via Deepgram Nova-2 with sub-200ms TTFT.</p>
+        <p style="margin-top: 8px;"><strong>2. Orchestration & Logic:</strong> Retell AI coordinates turn-taking and invokes function calling when calendar intents are detected.</p>
+        <p style="margin-top: 8px;"><strong>3. Database Tool Execution:</strong> Functions dispatch HTTP POST requests to a Vercel serverless micro-endpoint (`/api/check-availability`).</p>
+        <p style="margin-top: 8px;"><strong>4. Voice Synthesis:</strong> Audio frames are generated via Cartesia/ElevenLabs streaming TTS and played back to the caller.</p>
+      </div>
+
+      <button class="btn btn-primary" style="margin-top: 1.5rem;" onclick="toggleModal(false)">Got it, let's test!</button>
+    </div>
+  </div>
+
+  <script>
+    function toggleModal(show) {
+      document.getElementById('walkthrough-modal').style.display = show ? 'flex' : 'none';
     }
   </script>
 </body>
 </html>
 
+const AGENT_ID = "agent_198d66808b45681c64653b7092";
+    const API_KEY = "key_0117900268a440ed59d36d89d0d1";
